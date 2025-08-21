@@ -7,7 +7,6 @@ import csv
 import time
 from datetime import datetime
 
-
 from win32com.client import Dispatch
 
 def speak(str1):
@@ -23,6 +22,12 @@ with open('data/faces_data.pkl', 'rb') as f:
     FACES=pickle.load(f)
 
 print('Shape of Faces matrix --> ', FACES.shape)
+print('Length of Labels --> ', len(LABELS))
+
+# ✅ Minimal fix: trim labels to match number of faces
+if len(LABELS) != FACES.shape[0]:
+    LABELS = LABELS[:FACES.shape[0]]
+    print("⚠ Fixed mismatch: Labels trimmed to", len(LABELS))
 
 knn=KNeighborsClassifier(n_neighbors=5)
 knn.fit(FACES, LABELS)
@@ -41,7 +46,7 @@ while True:
         output=knn.predict(resized_img)
         ts=time.time()
         date=datetime.fromtimestamp(ts).strftime("%d-%m-%Y")
-        timestamp=datetime.fromtimestamp(ts).strftime("%H:%M-%S")
+        timestamp=datetime.fromtimestamp(ts).strftime("%H:%M:%S")  # fixed format
         exist=os.path.isfile("Attendance/Attendance_" + date + ".csv")
         cv2.rectangle(frame, (x,y), (x+w, y+h), (0,0,255), 1)
         cv2.rectangle(frame,(x,y),(x+w,y+h),(50,50,255),2)
@@ -70,4 +75,3 @@ while True:
         break
 video.release()
 cv2.destroyAllWindows()
-

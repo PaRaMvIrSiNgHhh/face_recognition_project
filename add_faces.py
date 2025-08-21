@@ -7,6 +7,7 @@ facedetect=cv2.CascadeClassifier('data/haarcascade_frontalface_default.xml')
 
 faces_data=[]
 
+
 i=0
 
 name=input("Enter Your Name: ")
@@ -54,3 +55,29 @@ else:
     faces=np.append(faces, faces_data, axis=0)
     with open('data/faces_data.pkl', 'wb') as f:
         pickle.dump(faces, f)
+
+
+
+
+
+
+
+
+# import cv2
+
+# cap = cv2.VideoCapture(0, cv2.CAP_DSHOW)
+# if not cap.isOpened():
+#     print("Cannot open camera")
+#     exit()
+
+# while True:
+#     ret, frame = cap.read()
+#     if not ret:
+#         print("Can't receive frame (stream end?). Exiting ...")
+#         break
+#     cv2.imshow('test', frame)
+#     if cv2.waitKey(1) == ord('q'):
+#         break
+
+# cap.release()
+# cv2.destroyAllWindows()
